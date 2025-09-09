@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FEH Summoning Simulator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      text-align: center;
+      padding: 20px;
+    }
+    .stone {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      line-height: 80px;
+      font-weight: bold;
+      color: white;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .Red { background-color: crimson; }
+    .Blue { background-color: royalblue; }
+    .Green { background-color: seagreen; }
+    .Colorless { background-color: gray; }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>FEH Summoning Simulator</h1>
+  <p>Click on a stone to summon!</p>
+  <div id="stone-container"></div>
+
+  <div class="result" id="result"></div>
+  <p>Total Orbs Spent: <span id="orb-count">0</span></p>
+  <button onclick="startSession()">Start New Summon Session</button>
+
+  <script>
+    const heroes = {
+      Red: ["Marth", "Roy", "Celica", "Lilina"],
+      Blue: ["Lucina", "Nowi", "Ninian", "Effie"],
+      Green: ["Hector", "Frederick", "Rinkah", "Barst"],
+      Colorless: ["Sakura", "Jeorge", "Felicia", "Gaius"]
+    };
+
+    const rarities = [
+      { type: "5★ Focus", rate: 3 },
+      { type: "5★", rate: 3 },
+      { type: "4★", rate: 58 },
+      { type: "3★", rate: 36 },
+    ];
+
+    let orbCost = [5, 4, 4, 4, 3];
+    let orbSpent = 0;
+    let currentCostIndex = 0;
+
+    function getRandomColor() {
+      const colors = ["Red", "Blue", "Green", "Colorless"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function generateStones() {
+      const stones = [];
+      for (let i = 0; i < 5; i++) {
+        stones.push(getRandomColor());
+      }
+      return stones;
+    }
+
+    function chooseRarity() {
+      const rand = Math.random() * 100;
+      let sum = 0;
+      for (let rarity of rarities) {
+        sum += rarity.rate;
+        if (rand < sum) return rarity.type;
+      }
+      return "3★"; // fallback
+    }
+
+    function summon(color) {
+      const rarity = chooseRarity();
+      const heroPool = heroes[color];
+      const hero = heroPool[Math.floor(Math.random() * heroPool.length)];
+
+      const resultText = `${rarity} ${hero} (${color})`;
+      document.getElementById("result").innerText = resultText;
+
+      orbSpent += orbCost[currentCostIndex];
+      currentCostIndex = Math.min(currentCostIndex + 1, 4);
+      document.getElementById("orb-count").innerText = orbSpent;
+
+      // Disable clicked stone
+      const stones = document.getElementsByClassName("stone");
+      for (let stone of stones) {
+        if (stone.innerText === color) {
+          stone.onclick = null;
+          stone.style.opacity = 0.5;
+          break;
+        }
+      }
+    }
+
+    function startSession() {
+      const container = document.getElementById("stone-container");
+      container.innerHTML = "";
+      document.getElementById("result").innerText = "";
+      currentCostIndex = 0;
+
+      const stones = generateStones();
+      stones.forEach(color => {
+        const btn = document.createElement("div");
+        btn.className = `stone ${color}`;
+        btn.innerText = color;
+        btn.onclick = () => summon(color);
+        container.appendChild(btn);
+      });
+    }
+
+    // Start first session on load
+    startSession();
+  </script>
+
+</body>
+</html>
