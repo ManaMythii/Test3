@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FEH Summoning Simulator</title>
+  <title>FEH Summoning Simulator (Full Hero DB)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #fafafa;
+      background-color: #f0f0f0;
       text-align: center;
       padding: 20px;
     }
@@ -42,14 +42,15 @@
   <p>Total Orbs Spent: <span id="orb-count">0</span></p>
   <button onclick="startSession()">Start New Summon Session</button>
 
+  <!-- Load hero database -->
+  <script src="https://proving-grounds-static.ajhyndman.com/0.15.2/fire-emblem-heroes-stats.min.js"></script>
   <script>
-    const heroes = {
-      Red: ["Marth", "Roy", "Celica", "Lilina"],
-      Blue: ["Lucina", "Nowi", "Ninian", "Effie"],
-      Green: ["Hector", "Frederick", "Rinkah", "Barst"],
-      Colorless: ["Sakura", "Jeorge", "Felicia", "Gaius"]
-    };
+    let orbCost = [5, 4, 4, 4, 3];
+    let orbSpent = 0;
+    let currentCostIndex = 0;
+    let fullHeroDB = [];
 
+    // Rarity distribution
     const rarities = [
       { type: "5★ Focus", rate: 3 },
       { type: "5★", rate: 3 },
@@ -57,15 +58,69 @@
       { type: "3★", rate: 36 },
     ];
 
-    let orbCost = [5, 4, 4, 4, 3];
-    let orbSpent = 0;
-    let currentCostIndex = 0;
+    // Random rarity based on rate %
+    function chooseRarity() {
+      const rand = Math.random() * 100;
+      let sum = 0;
+      for (let rarity of rarities) {
+        sum += rarity.rate;
+        if (rand < sum) return rarity.type;
+      }
+      return "3★";
+    }
 
+    // Random color generator
     function getRandomColor() {
       const colors = ["Red", "Blue", "Green", "Colorless"];
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
+    // Filter hero by summoning stone color
+    function getHeroByColor(color) {
+      const colorMap = {
+        Red: ["Red Sword", "Red Tome", "Red Dragon", "Red Bow", "Red Beast"],
+        Blue: ["Blue Lance", "Blue Tome", "Blue Dragon", "Blue Beast"],
+        Green: ["Green Axe", "Green Tome", "Green Dragon", "Green Beast"],
+        Colorless: ["Colorless Staff", "Colorless Dagger", "Colorless Bow", "Colorless Beast"]
+      };
+
+      const validTypes = colorMap[color];
+      const filtered = fullHeroDB.filter(h => validTypes.includes(h.weaponType));
+      if (filtered.length === 0) return null;
+      return filtered[Math.floor(Math.random() * filtered.length)];
+    }
+
+    // Summon a hero
+    function summon(color) {
+      const rarity = chooseRarity();
+      const hero = getHeroByColor(color);
+      let resultText = '';
+
+      if (hero) {
+        resultText = `${rarity} — ${hero.name} (${hero.weaponType}, ${hero.moveType})`;
+      } else {
+        resultText = `${rarity} — No hero found for color: ${color}`;
+      }
+
+      document.getElementById("result").innerText = resultText;
+
+      // Orb cost update
+      orbSpent += orbCost[currentCostIndex];
+      currentCostIndex = Math.min(currentCostIndex + 1, 4);
+      document.getElementById("orb-count").innerText = orbSpent;
+
+      // Disable clicked stone
+      const stones = document.getElementsByClassName("stone");
+      for (let stone of stones) {
+        if (stone.innerText === color && stone.onclick !== null) {
+          stone.onclick = null;
+          stone.style.opacity = 0.5;
+          break;
+        }
+      }
+    }
+
+    // Generate 5 random colored stones
     function generateStones() {
       const stones = [];
       for (let i = 0; i < 5; i++) {
@@ -74,39 +129,7 @@
       return stones;
     }
 
-    function chooseRarity() {
-      const rand = Math.random() * 100;
-      let sum = 0;
-      for (let rarity of rarities) {
-        sum += rarity.rate;
-        if (rand < sum) return rarity.type;
-      }
-      return "3★"; // fallback
-    }
-
-    function summon(color) {
-      const rarity = chooseRarity();
-      const heroPool = heroes[color];
-      const hero = heroPool[Math.floor(Math.random() * heroPool.length)];
-
-      const resultText = `${rarity} ${hero} (${color})`;
-      document.getElementById("result").innerText = resultText;
-
-      orbSpent += orbCost[currentCostIndex];
-      currentCostIndex = Math.min(currentCostIndex + 1, 4);
-      document.getElementById("orb-count").innerText = orbSpent;
-
-      // Disable clicked stone
-      const stones = document.getElementsByClassName("stone");
-      for (let stone of stones) {
-        if (stone.innerText === color) {
-          stone.onclick = null;
-          stone.style.opacity = 0.5;
-          break;
-        }
-      }
-    }
-
+    // Start a new summon session
     function startSession() {
       const container = document.getElementById("stone-container");
       container.innerHTML = "";
@@ -123,8 +146,11 @@
       });
     }
 
-    // Start first session on load
-    startSession();
+    // Load hero data from the package
+    window.onload = function () {
+      fullHeroDB = stats.getAllHeroes();
+      startSession();
+    };
   </script>
 
 </body>
