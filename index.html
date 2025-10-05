@@ -12,18 +12,14 @@
         <div id="table-container"></div>
     </div>
     <script>
-        // Fetch the Excel file from the server
-        fetch('CYL Rankings.xlsx')
-            .then(response => response.arrayBuffer())
+        // Fetch the JSON file from the server
+        fetch('CYLRankings.json')
+            .then(response => response.json())
             .then(data => {
-                const workbook = XLSX.read(new Uint8Array(data), {type: 'array'});
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                const json = XLSX.utils.sheet_to_json(worksheet, {header:1});
-                renderTable(json);
+                renderTable(data);
             })
             .catch(err => {
-                document.getElementById('table-container').innerHTML = '<div class="alert alert-danger">Could not load Excel file.</div>';
+                document.getElementById('table-container').innerHTML = '<div class="alert alert-danger">Could not load JSON file.</div>';
             });
 
         function renderTable(data) {
