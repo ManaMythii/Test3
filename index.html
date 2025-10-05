@@ -22,30 +22,90 @@
                 document.getElementById('table-container').innerHTML = '<div class="alert alert-danger">Could not load JSON file.</div>';
             });
 
+                let sortColumn = null;
+                let sortAsc = true;
+                let tableData = [];
+
                 function renderTable(data) {
-                                if (!Array.isArray(data) || data.length === 0) {
-                                    document.getElementById('grid-container').innerHTML = '<div class="alert alert-warning">No data found in JSON file.</div>';
-                                    return;
-                                }
-                                const headers = Object.keys(data[0]);
-                                    let html = '<div class="container-fluid"><div style="overflow-x:auto;">';
-                                    html += '<table class="table table-bordered align-middle mb-0">';
-                                    html += '<thead class="table-light"><tr>';
-                                    headers.forEach(h => {
-                                        html += `<th class="text-nowrap">${h}</th>`;
-                                    });
-                                    html += '</tr></thead><tbody>';
-                                    data.forEach(row => {
-                                        html += '<tr>';
-                                        headers.forEach(h => {
-                                            html += `<td class="text-nowrap">${row[h] ?? ""}</td>`;
-                                        });
-                                        html += '</tr>';
-                                    });
-                                    html += '</tbody></table></div></div>';
-                                document.getElementById('grid-container').innerHTML = html;
+                    if (!Array.isArray(data) || data.length === 0) {
+                        document.getElementById('grid-container').innerHTML = '<div class="alert alert-warning">No data found in JSON file.</div>';
+                        return;
+                    }
+                    tableData = [...data];
+                    const headers = Object.keys(data[0]);
+                    let html = '<div class="container-fluid">';
+                    html += '<div id="sticky-scrollbar" style="position:fixed;bottom:0;left:0;width:100vw;z-index:999;height:20px;background:#f8f9fa;overflow-x:auto;">';
+                    html += '<div id="scrollbar-inner" style="width:2000px;height:1px;"></div></div>';
+                    html += '<div id="table-scroll-container" style="overflow-x:auto; scrollbar-width: auto; -ms-overflow-style: auto;">';
+                    html += '<table class="table table-bordered align-middle mb-0">';
+                    html += '<thead class="table-light"><tr>';
+                    headers.forEach(h => {
+                        html += `<th class="text-nowrap" style="cursor:pointer" onclick="sortTableByColumn('${h}')">${h} <span id="sort-icon-${h}"></span></th>`;
+                    });
+                    html += '</tr></thead><tbody>';
+                    tableData.forEach(row => {
+                        html += '<tr>';
+                        headers.forEach(h => {
+                            html += `<td class="text-nowrap">${row[h] ?? ""}</td>`;
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table></div></div>';
+                    document.getElementById('grid-container').innerHTML = html;
+                    // Synchronize scroll positions
+                    const stickyScrollbar = document.getElementById('sticky-scrollbar');
+                    const tableScroll = document.getElementById('table-scroll-container');
+                    // Set scrollbar-inner width to match table width
+                    const tableElem = tableScroll.querySelector('table');
+                    document.getElementById('scrollbar-inner').style.width = tableElem.offsetWidth + 'px';
+                    let isSyncingScrollbar = false;
+                    let isSyncingTable = false;
+                    stickyScrollbar.onscroll = function() {
+                        if (!isSyncingTable) {
+                            isSyncingScrollbar = true;
+                            tableScroll.scrollLeft = stickyScrollbar.scrollLeft;
+                            isSyncingScrollbar = false;
+                        }
+                    };
+                    tableScroll.onscroll = function() {
+                        if (!isSyncingScrollbar) {
+                            isSyncingTable = true;
+                            stickyScrollbar.scrollLeft = tableScroll.scrollLeft;
+                            isSyncingTable = false;
+                        }
+                    };
+                    updateSortIcons(headers);
+                }
+
+                window.sortTableByColumn = function(col) {
+                    if (sortColumn === col) {
+                        sortAsc = !sortAsc;
+                    } else {
+                        sortColumn = col;
+                        sortAsc = true;
+                    }
+                    tableData.sort((a, b) => {
+                        if (a[col] == null) return 1;
+                        if (b[col] == null) return -1;
+                        if (typeof a[col] === 'number' && typeof b[col] === 'number') {
+                            return sortAsc ? a[col] - b[col] : b[col] - a[col];
+                        }
+                        return sortAsc ? String(a[col]).localeCompare(String(b[col])) : String(b[col]).localeCompare(String(a[col]));
+                    });
+                    renderTable(tableData);
+                }
+
+                function updateSortIcons(headers) {
+                    headers.forEach(h => {
+                        const iconSpan = document.getElementById('sort-icon-' + h);
+                        if (!iconSpan) return;
+                        if (sortColumn === h) {
+                            iconSpan.innerHTML = sortAsc ? '▲' : '▼';
+                        } else {
+                            iconSpan.innerHTML = '';
+                        }
+                    });
                 }
     </script>
 </body>
 </html>
-
