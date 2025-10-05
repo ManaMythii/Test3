@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>Excel to Table</title>
@@ -34,8 +34,10 @@
                     tableData = [...data];
                     const headers = Object.keys(data[0]);
                     let html = '<div class="container-fluid">';
+                    html += '<div class="d-flex justify-content-center">';
+                    html += '<div class="bg-white rounded shadow p-4 w-100" style="max-width:80vw;">';
                     html += '<div id="sticky-scrollbar" style="position:fixed;bottom:0;left:0;width:100vw;z-index:999;height:20px;background:#f8f9fa;overflow-x:auto;">';
-                    html += '<div id="scrollbar-inner" style="width:2000px;height:1px;"></div></div>';
+                    html += '<div id="scrollbar-inner" style="width:5600px;height:1px;"></div></div>';
                     html += '<div id="table-scroll-container" style="overflow-x:auto; scrollbar-width: auto; -ms-overflow-style: auto;">';
                     html += '<table class="table table-bordered align-middle mb-0">';
                     html += '<thead class="table-light"><tr>';
@@ -50,14 +52,14 @@
                         });
                         html += '</tr>';
                     });
-                    html += '</tbody></table></div></div>';
+                    html += '</tbody></table></div></div></div></div>';
                     document.getElementById('grid-container').innerHTML = html;
                     // Synchronize scroll positions
                     const stickyScrollbar = document.getElementById('sticky-scrollbar');
                     const tableScroll = document.getElementById('table-scroll-container');
                     // Set scrollbar-inner width to match table width
                     const tableElem = tableScroll.querySelector('table');
-                    document.getElementById('scrollbar-inner').style.width = tableElem.offsetWidth + 'px';
+                    document.getElementById('scrollbar-inner').style.width = '5200px';
                     let isSyncingScrollbar = false;
                     let isSyncingTable = false;
                     stickyScrollbar.onscroll = function() {
@@ -109,3 +111,4 @@
     </script>
 </body>
 </html>
+
