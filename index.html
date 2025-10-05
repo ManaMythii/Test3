@@ -13,7 +13,7 @@
     </div>
     <script>
         // Fetch the JSON file from the server
-        fetch('./CYLRankings.json')
+        fetch('https://raw.githubusercontent.com/ManaMythii/Test3/refs/heads/main/CYLRankings.json')
             .then(response => response.json())
             .then(data => {
                 renderTable(data);
