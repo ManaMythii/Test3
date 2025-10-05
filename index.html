@@ -7,43 +7,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
   <body>
-    <table class="table table-dark table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>John</td>
-          <td>Doe</td>
-          <td>@social</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container mt-4">
+    <h2>Excel Data from File</h2>
+        <div id="table-container"></div>
+    </div>
+    <script>
+        // Fetch the Excel file from the server
+        fetch('CYL Rankings.xlsx')
+            .then(response => response.arrayBuffer())
+            .then(data => {
+                const workbook = XLSX.read(new Uint8Array(data), {type: 'array'});
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const json = XLSX.utils.sheet_to_json(worksheet, {header:1});
+                renderTable(json);
+            })
+            .catch(err => {
+                document.getElementById('table-container').innerHTML = '<div class="alert alert-danger">Could not load Excel file.</div>';
+            });
+
+        function renderTable(data) {
+            let html = '<table class="table table-striped">';
+            data.forEach((row, i) => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += i === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</table>';
+            document.getElementById('table-container').innerHTML = html;
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
   </body>
 </html>
 
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
