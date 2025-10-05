@@ -8,10 +8,32 @@
 </head>
 <body>
     <div class="container-fluid">
-    <h2>JSON Data from File</h2>
-    <div id="grid-container"></div>
-    </div>
+            <div class="d-flex" style="min-height: 100vh;">
+                <nav class="position-fixed top-0 start-0 d-flex flex-column align-items-center bg-body-tertiary p-3" style="width:70px;height:100vh;">
+                    <button id="themeToggle" class="btn btn-outline-primary mb-2" title="Toggle Light/Dark Mode">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </nav>
+                <div class="flex-grow-1">
+                    <h2>JSON Data from File</h2>
+                    <div id="grid-container"></div>
+                </div>
+            </div>
+        
     <script>
+        // Theme toggle logic
+        document.getElementById('themeToggle').onclick = function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-bs-theme', 'light');
+                themeIcon.textContent = '🌞';
+            } else {
+                html.setAttribute('data-bs-theme', 'dark');
+                themeIcon.textContent = '🌙';
+            }
+        };
         // Fetch the JSON file from the server
         fetch('CYLRankings.json')
             .then(response => response.json())
@@ -111,4 +133,3 @@
     </script>
 </body>
 </html>
-
