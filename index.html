@@ -25,9 +25,9 @@
         function renderTable(data) {
           // Get all unique keys from the first object (these will be the table headers)
           const headers = Object.keys(data[0]);
-          let html = '<table class="table table-bordered">';
+          let html = '<table class="table table-bordered align-middle">';
           html += '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
-          html += '<tbody>';
+          html += '<tbody class="table-group-divider">';
           data.forEach(row => {
               html += '<tr>' + headers.map(h => `<td>${row[h] ?? ""}</td>`).join('') + '</tr>';
           });
