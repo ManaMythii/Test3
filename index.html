@@ -5,15 +5,41 @@
     <title>Excel to Table</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="container-fluid">
             <div class="d-flex" style="min-height: 100vh;">
-                <nav class="position-fixed top-0 start-0 d-flex flex-column align-items-center bg-body-tertiary p-3" style="width:70px;height:100vh;">
-                    <button id="themeToggle" class="btn btn-outline-primary mb-2" title="Toggle Light/Dark Mode">
-                        <span id="themeIcon">🌙</span>
-                    </button>
-                </nav>
+                        <nav class="position-fixed top-0 start-0 d-flex flex-column align-items-center bg-body-tertiary p-3" style="width:150px;height:100vh;">
+                            <button id="themeToggle" class="btn btn-outline-primary mb-2" title="Toggle Light/Dark Mode">
+                                <span id="themeIcon">🌙</span>
+                            </button>
+                                    <div class="dropdown w-100 mb-2">
+                                        <button class="btn btn-outline-secondary w-100 dropdown-toggle" type="button" id="gameFilterBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Filter Game
+                                        </button>
+                                        <ul class="dropdown-menu w-100" id="gameFilterMenu" aria-labelledby="gameFilterBtn">
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE01/FE11 - Shadow Dragon and the Blade of Light/Shadow Dragon">Shadow Dragon</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE02/FE15 - Gaiden/Echoes: Shadows of Valentia">SoV</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE03/FE12 - Mystery of the Emblem/New Mystery of the Emblem">Mystery</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE04 - Genealogy of the Holy War">Genealogy</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE05 - Thracia 776">Thracia</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE06 - The Binding Blade">Binding Blade</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE07 - The Blazing Blade">Blazing Blade</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE08 - The Sacred Stones">Sacred Stones</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE09 - Path of Radiance">PoR</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE10 - Radiant Dawn">RD</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE13 - Awakening">Awakening</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE14 - Fates">Fates</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE16 - Three Houses">3H</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE17 - Engage">Engage</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Heroes">Heroes</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Tokyo Mirage Sessions #FE Encore">TMS</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Warriors: Three Hopes">Three Hopes</label></li>
+                                        </ul>
+                                    </div>
+                            <button id="clearGameFilter" class="btn btn-outline-secondary w-100">Clear Filter</button>
+                        </nav>
                 <div class="flex-grow-1">
                     <h2>JSON Data from File</h2>
                     <div id="grid-container"></div>
@@ -35,14 +61,44 @@
             }
         };
         // Fetch the JSON file from the server
+        let fullData = [];
+        let filteredData = [];
+    let gameFilter = [];
         fetch('CYLRankings.json')
             .then(response => response.json())
             .then(data => {
-                renderTable(data);
+                fullData = data;
+                filteredData = [...fullData];
+                renderTable(filteredData);
+                populateGameFilter(fullData);
             })
             .catch(err => {
-                document.getElementById('table-container').innerHTML = '<div class="alert alert-danger">Could not load JSON file.</div>';
+                document.getElementById('grid-container').innerHTML = '<div class="alert alert-danger">Could not load JSON file.</div>';
             });
+        function populateGameFilter(data) {
+            // Static dropdown menu now in HTML, no JS needed
+        }
+
+        function getSelectedGames() {
+            return Array.from(document.querySelectorAll('.game-filter-checkbox:checked')).map(cb => cb.value);
+        }
+        document.getElementById('gameFilterMenu').addEventListener('change', function() {
+            gameFilter = getSelectedGames();
+            applyGameFilter();
+        });
+        document.getElementById('clearGameFilter').onclick = function() {
+            document.querySelectorAll('.game-filter-checkbox').forEach(cb => cb.checked = false);
+            gameFilter = [];
+            applyGameFilter();
+        }
+        function applyGameFilter() {
+            if (!gameFilter || gameFilter.length === 0) {
+                filteredData = [...fullData];
+            } else {
+                filteredData = fullData.filter(row => gameFilter.includes(row.GAME));
+            }
+            renderTable(filteredData);
+        }
 
                 let sortColumn = null;
                 let sortAsc = true;
@@ -59,7 +115,7 @@
                     html += '<div class="d-flex justify-content-center">';
                     html += '<div class="bg-white rounded shadow p-4 w-100" style="max-width:80vw;">';
                     html += '<div id="sticky-scrollbar" style="position:fixed;bottom:0;left:0;width:100vw;z-index:999;height:20px;background:#f8f9fa;overflow-x:auto;">';
-                    html += '<div id="scrollbar-inner" style="width:5600px;height:1px;"></div></div>';
+                    html += '<div id="scrollbar-inner" style="width:5690px;height:1px;"></div></div>';
                     html += '<div id="table-scroll-container" style="overflow-x:auto; scrollbar-width: auto; -ms-overflow-style: auto;">';
                     html += '<table class="table table-bordered align-middle mb-0">';
                     html += '<thead class="table-light"><tr>';
@@ -81,7 +137,7 @@
                     const tableScroll = document.getElementById('table-scroll-container');
                     // Set scrollbar-inner width to match table width
                     const tableElem = tableScroll.querySelector('table');
-                    document.getElementById('scrollbar-inner').style.width = '5200px';
+                    document.getElementById('scrollbar-inner').style.width = '5690px';
                     let isSyncingScrollbar = false;
                     let isSyncingTable = false;
                     stickyScrollbar.onscroll = function() {
@@ -133,3 +189,4 @@
     </script>
 </body>
 </html>
+
