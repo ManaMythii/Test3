@@ -14,28 +14,66 @@
                             <button id="themeToggle" class="btn btn-outline-primary mb-2" title="Toggle Light/Dark Mode">
                                 <span id="themeIcon">🌙</span>
                             </button>
+                            <div class="dropdown w-100 mb-2">
+                                <button class="btn btn-outline-secondary w-100 dropdown-toggle" type="button" id="columnVisibilityBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Show Columns
+                                </button>
+                                <ul class="dropdown-menu w-100" id="columnVisibilityMenu" aria-labelledby="columnVisibilityBtn">
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="IMAGE" checked> IMAGE</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CHARACTER" checked> CHARACTER</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="GAME" checked> GAME</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="DIVISION" checked> DIVISION</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 1 RANK (OVERALL)" checked> CYL 1 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 1 RANK (DIVISION)" checked> CYL 1 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES" checked> VOTES</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 2 RANK (OVERALL)" checked> CYL 2 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 2 RANK (DIVISION)" checked> CYL 2 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.1" checked> VOTES.1</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 3 RANK (OVERALL)" checked> CYL 3 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 3 RANK (DIVISION)" checked> CYL 3 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.2" checked> VOTES.2</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 4 RANK (OVERALL)" checked> CYL 4 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 4 RANK (DIVISION)" checked> CYL 4 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.3" checked> VOTES.3</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 5 RANK (OVERALL)" checked> CYL 5 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 5 RANK (DIVISION)" checked> CYL 5 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.4" checked> VOTES.4</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 6 RANK (OVERALL)" checked> CYL 6 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 6 RANK (DIVISION)" checked> CYL 6 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.5" checked> VOTES.5</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 7 RANK (OVERALL)" checked> CYL 7 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 7 RANK (DIVISION)" checked> CYL 7 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.6" checked> VOTES.6</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 8 RANK (OVERALL)" checked> CYL 8 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 8 RANK (DIVISION)" checked> CYL 8 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.7" checked> VOTES.7</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 9 RANK (OVERALL)" checked> CYL 9 RANK (OVERALL)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="CYL 9 RANK (DIVISION)" checked> CYL 9 RANK (DIVISION)</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="column-visibility-checkbox" value="VOTES.8" checked> VOTES.8</label></li>
+                                </ul>
+                            </div>
                                     <div class="dropdown w-100 mb-2">
                                         <button class="btn btn-outline-secondary w-100 dropdown-toggle" type="button" id="gameFilterBtn" data-bs-toggle="dropdown" aria-expanded="false">
                                             Filter Game
                                         </button>
                                         <ul class="dropdown-menu w-100" id="gameFilterMenu" aria-labelledby="gameFilterBtn">
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE01/FE11 - Shadow Dragon and the Blade of Light/Shadow Dragon">Shadow Dragon</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE02/FE15 - Gaiden/Echoes: Shadows of Valentia">SoV</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE03/FE12 - Mystery of the Emblem/New Mystery of the Emblem">Mystery</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE04 - Genealogy of the Holy War">Genealogy</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE05 - Thracia 776">Thracia</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE06 - The Binding Blade">Binding Blade</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE07 - The Blazing Blade">Blazing Blade</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE08 - The Sacred Stones">Sacred Stones</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE09 - Path of Radiance">PoR</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE10 - Radiant Dawn">RD</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE13 - Awakening">Awakening</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE14 - Fates">Fates</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE16 - Three Houses">3H</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE17 - Engage">Engage</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Heroes">Heroes</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Tokyo Mirage Sessions #FE Encore">TMS</label></li>
-                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Warriors: Three Hopes">Three Hopes</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE01/FE11 - Shadow Dragon and the Blade of Light/Shadow Dragon"> Shadow Dragon</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE02/FE15 - Gaiden/Echoes: Shadows of Valentia"> SoV</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE03/FE12 - Mystery of the Emblem/New Mystery of the Emblem"> Mystery</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE04 - Genealogy of the Holy War"> Genealogy</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE05 - Thracia 776"> Thracia</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE06 - The Binding Blade"> Binding Blade</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE07 - The Blazing Blade"> Blazing Blade</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE08 - The Sacred Stones"> Sacred Stones</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE09 - Path of Radiance"> PoR</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE10 - Radiant Dawn"> RD</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE13 - Awakening"> Awakening</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE14 - Fates"> Fates</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE16 - Three Houses"> 3H</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="FE17 - Engage"> Engage</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Heroes"> Heroes</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Tokyo Mirage Sessions #FE Encore"> TMS</label></li>
+                                            <li><label class="dropdown-item"><input type="checkbox" class="game-filter-checkbox" value="Warriors: Three Hopes"> Three Hopes</label></li>
                                         </ul>
                                     </div>
                             <button id="clearGameFilter" class="btn btn-outline-secondary w-100">Clear Filter</button>
@@ -60,6 +98,64 @@
                 themeIcon.textContent = '🌙';
             }
         };
+
+        // Column visibility logic
+        let visibleColumns = [
+            "IMAGE",
+            "CHARACTER",
+            "GAME",
+            "DIVISION",
+            "CYL 1 RANK (OVERALL)",
+            "CYL 1 RANK (DIVISION)",
+            "VOTES",
+            "CYL 2 RANK (OVERALL)",
+            "CYL 2 RANK (DIVISION)",
+            "VOTES.1",
+            "CYL 3 RANK (OVERALL)",
+            "CYL 3 RANK (DIVISION)",
+            "VOTES.2",
+            "CYL 4 RANK (OVERALL)",
+            "CYL 4 RANK (DIVISION)",
+            "VOTES.3",
+            "CYL 5 RANK (OVERALL)",
+            "CYL 5 RANK (DIVISION)",
+            "VOTES.4",
+            "CYL 6 RANK (OVERALL)",
+            "CYL 6 RANK (DIVISION)",
+            "VOTES.5",
+            "CYL 7 RANK (OVERALL)",
+            "CYL 7 RANK (DIVISION)",
+            "VOTES.6",
+            "CYL 8 RANK (OVERALL)",
+            "CYL 8 RANK (DIVISION)",
+            "VOTES.7",
+            "CYL 9 RANK (OVERALL)",
+            "CYL 9 RANK (DIVISION)",
+            "VOTES.8"
+    ]
+
+        // Example image filenames/paths array (replace with your actual image paths)
+        const imageFiles = [
+            // e.g. 'images/Marth.png', 'images/Lucina.jpg', ...
+        ];
+
+        function assignImagesToRows(data, imageFiles) {
+            data.forEach(row => {
+                if (!row.IMAGE) {
+                    const charName = row.CHARACTER ? row.CHARACTER.toLowerCase().replace(/\s+/g, '') : '';
+                    const match = imageFiles.find(img => img.toLowerCase().includes(charName));
+                    if (match) {
+                        row.IMAGE = match;
+                    }
+                }
+            });
+        }
+
+        ;
+        document.getElementById('columnVisibilityMenu').addEventListener('change', function() {
+            visibleColumns = Array.from(document.querySelectorAll('.column-visibility-checkbox:checked')).map(cb => cb.value);
+            renderTable(filteredData);
+        });
         // Fetch the JSON file from the server
         let fullData = [];
         let filteredData = [];
@@ -68,6 +164,7 @@
             .then(response => response.json())
             .then(data => {
                 fullData = data;
+                assignImagesToRows(fullData, imageFiles);
                 filteredData = [...fullData];
                 renderTable(filteredData);
                 populateGameFilter(fullData);
@@ -110,7 +207,8 @@
                         return;
                     }
                     tableData = [...data];
-                    const headers = Object.keys(data[0]);
+                    const allHeaders = Object.keys(data[0]);
+                    const headers = allHeaders.filter(h => visibleColumns.includes(h));
                     let html = '<div class="container-fluid">';
                     html += '<div class="d-flex justify-content-center">';
                     html += '<div class="bg-white rounded shadow p-4 w-100" style="max-width:80vw;">';
@@ -126,7 +224,11 @@
                     tableData.forEach(row => {
                         html += '<tr>';
                         headers.forEach(h => {
-                            html += `<td class="text-nowrap">${row[h] ?? ""}</td>`;
+                            if (h === "IMAGE" && row[h]) {
+                                html += `<td class="text-nowrap"><img src="${row[h]}" alt="Image" style="max-width:80px;max-height:80px;"></td>`;
+                            } else {
+                                html += `<td class="text-nowrap">${row[h] ?? ""}</td>`;
+                            }
                         });
                         html += '</tr>';
                     });
@@ -189,4 +291,3 @@
     </script>
 </body>
 </html>
-
